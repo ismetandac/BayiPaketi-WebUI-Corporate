@@ -1,11 +1,25 @@
 import './Navbar.css';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import Signup from './Signup';
 import Signin from './Signin';
-import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import reducer, { GetMenuList } from '../Data/data';
+import { injectReducer } from '../store';
+injectReducer('Data', reducer)
 
 export default function Navbar({ isAuth, setIsAuth }) {
+
+  const dispatch = useDispatch()
+
+  const MenuList = useSelector((state) => state.Data.MenuList)
+
+  // console.log("MenuList", MenuList)
+
+  useEffect(() => {
+    dispatch(GetMenuList({}))
+  }, [dispatch]);
 
   const signOut = () => {
     setIsAuth({ name: '', email: '', auth: false });
@@ -44,7 +58,13 @@ export default function Navbar({ isAuth, setIsAuth }) {
           </button>
           <div className="collapse2 navbar-collapse grow-0! " id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li className="nav-item">
+              {MenuList && MenuList?.map((item, index) => (
+                // <li key={index}>{item}</li>
+                <li className="nav-item" key={index}>
+                  <NavLink className="nav-link" to={item.url} aria-current="page">{item.name}</NavLink>
+                </li>
+              ))}
+              {/* <li className="nav-item">
                 <NavLink className="nav-link" to="/" aria-current="page">Anasayfa</NavLink>
               </li>
 
@@ -59,11 +79,11 @@ export default function Navbar({ isAuth, setIsAuth }) {
 
               <li className="nav-item">
                 <NavLink className="nav-link" to="/contact">İletişim</NavLink>
-              </li>
+              </li> */}
 
 
             </ul>
-            <img src="https://www.dogruyazilim.com/images/unvanlar4.png" alt="Unvanlar" className="d-inline-block align-text-end h-20 w-full" />
+            <img src="https://www.dogruyazilim.com/images/unvanlar4.png" alt="Unvanlar" className="d-inline-block align-text-end h-20 w-full"  />
 
             {/* {
               (isAuth.auth) ?

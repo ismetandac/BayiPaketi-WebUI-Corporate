@@ -1,11 +1,10 @@
 import axios from 'axios'
-import appConfig from 'configs/app.config'
-import { TOKEN_TYPE, REQUEST_HEADER_AUTH_KEY } from 'constants/api.constant'
-import { PERSIST_STORE_NAME } from 'constants/app.constant'
-import deepParseJson from 'utils/deepParseJson'
+import appConfig from '../configs/app.config'
+import { TOKEN_TYPE, REQUEST_HEADER_AUTH_KEY } from '../constants/api.constant'
+import { PERSIST_STORE_NAME } from '../constants/app.constant'
+import deepParseJson from '../utils/deepParseJson'
 import store from '../store'
-import { onSignOutSuccess } from '../store/auth/sessionSlice'
-import { toast, Alert } from '../components/ui'
+// import { onSignOutSuccess } from '../store/auth/sessionSlice'
 
 const unauthorizedCode = [401]
 
@@ -20,18 +19,23 @@ BaseService.interceptors.request.use(
         const rawPersistData = localStorage.getItem(PERSIST_STORE_NAME)
         const persistData = deepParseJson(rawPersistData)
 
-        let accessToken = persistData.auth.session.token
+        // let accessToken = persistData.auth.session.token
 
-        if (!accessToken) {
-            const { auth } = store.getState()
-            accessToken = auth.session.token
-        }
+        // if (!accessToken) {
+        //     const { auth } = store.getState()
+        //     accessToken = auth.session.token
+        // }
 
-        if (accessToken) {
-            config.headers[
-                REQUEST_HEADER_AUTH_KEY
-            ] = `${TOKEN_TYPE}${accessToken}`
-        }
+        // if (accessToken) {
+        //     config.headers[
+        //         REQUEST_HEADER_AUTH_KEY
+        //     ] = `${TOKEN_TYPE}${accessToken}`
+        // }
+        const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6Ilc0Q2tuWXRVRUVFL09EVDNDd0p2K0R1ZVZWME1JUFBJVzJMaE9wZTFiQk1hS3pMc095c1hFVmU4ZFVsczFKeEsiLCJVc2VySUQiOiJCN2xKK0hHTE9BZXZDVzd5WHlVWDFzcUhqRUxxa3AzZDZYZElIVGp3UFBmekNYYkRUKzhxSThJT1lMb3ZGTFNGcGppbFNWTzI2c1p6VHBvTmhNWWYrc1N3VWFoT1B3SHREK3JOeGphdTdYQT0iLCJEYk5hbWUiOiJueVlpTzljWjFkdjNPMld3L09Wd0lPWWdQdGdVR0kyZUJKeDZTeVk2dWRvPSIsIkNvbXBhbnlJZCI6IlhxV3ZTekJhWEkxTmZmenNFNWNtUGI2SVRmZFlUR2FSakJqMElFaUwrd2trSzRqczNmOEZVbzN1NmhxMnFyaVR3bXVkblFYaThaVFRUYytJbXpoQTBwV1JJVjk1blRETEdCRnB6YWxuQUFnPSIsIlJvbGVJZCI6ImdMOHp5WEJNTGR5RlZ5UTl6Wnh5S2c9PSIsIkN1c3RvbWVySWQiOiJoWXNqUXozT3ZCOThnRFJqL1QweHV3PT0iLCJFcnBDb25maWciOiIyejRyRkthTEJkWURzK2ZYWjdDbDZwbTlnVWxhaW1JN3gwVEJUWm9ITW5ZOE9oN3JnWXkwQXptM3cyMUo2dnVQVlpuQnZlOUFvMDBTRkNTdkUzN2V1UkMzQ29pMVB6OVpvWkVoWUttOE83OTVoZEtrQ3dab0RmOWVCVzNQa2l4bU1nSVZrbi9zc0xVQ1pvM1JLWDczTlNQcVpYK0hRczZxcWtDbVhHakJtai9JV2FrVXVFRXRaOUduMW1aNnAvQ3AxSzE2SmY3ZHp4THc4blA3NlJxQVU3MmYzRjViRkwvWi95aGNnT01xSU5Cd25ETnFUU2d1L2JlbEE4Wmp4eWd4V2hSTGlvN3Vzb2dzeENiTWlqdkhhcEQrOHd1UW5WRU5qa0xNVDcyd2hkdWtGUU9ja3dQTEZPaURGeWcvMkttWXBmbGpEZEhKZFcwN3VydlN4S0xJSkFGWWxTeEhXNk5lUk1JZnlabGVlV1ozSDBGZU1PQnZnM2VCT095bzgzUFhYSGgwTG5QenJ5emwzTlh4ek5PZXhYVTdFYTBHcGMxeStBbzFWdDlKTFZEYUFSWXYwR1RIdFV6TUpOTXVoQ1ZVc05oZ2preUI5YjZ6ZHRiclpnODJTSnRCdzVTa01lQ042RlZEelQ5TzZEemdvZU1LZTJCUTNLbE5LMG1CN0dqQWp3anc2dmN2ZkJ5Tkx6YWF3Wmc5MTUyWXM3ZGRtMXRsN0VqOS96N2pBcjFyRGpoNWp1NDE2WkJIY2sycEdYZWtGdVJUZGEwUW94ZWNEZFh4UStuU0d4OTZkM1FGUUJhRnBCblRHNm8zQ0dLa0s4dEdseEtnVmxueFQ5YUdVamZQQld0QlpYblpMOTdDV05wa2t5ZE1VM1VvRi9aTlRPRmR3VW95UW5QOGg1aG5VTHN0clV5WTB6WVkwSnY5NktwK1hldGZ4bVVlYjg1R2VqaDJHWUVxa05UVWRHdys1VVVnVkJOLzZGK0ZsN1c1dGdoNmxMQUdiRW14YURodURuWFJjcitSUndWVzJDUVN6TW1oYldrc0tZTDI2ZmNPb1crNDVOTUVRUkFRZ2k0S2gvTm9LT3BaYUFuakoxbEhBbUNiRDN1TExmNmVFaXJCOTM4eDBIK0JrRlBnYytROSszOW9ZbVdnWG5JVTlqRm1ZZ1JKNklRbk9VeUZhV25IaHA4djJ1SEt2SVhTWWFLeFVHSnZrOXRZUE5tdU5IT2o5cit6eERwNmt3aGRDZUk0SnpUWERQb1JlWXU5ek1OZnlhbXp0ZStCNy81T3NNMFdudUFXQTcyMVlma3ZoaWd0SW1GUk9RNWRLdWlscmhOZmtubUJWbVdEUm1sQTVmN0RlQ2RGZjN6eGtyK2pCU1hFUWo2OEZHK2V3cFhlSDhKemJMMk9RK0VUYjVxSTRZOHFOMzRNRU5uN1pjNmJkTjAyRlp5UE93dlNyUkxRNG83MkxkdGNCOG1vRUs0Z29qQ0RTbzFTdVFHc1pLY0V2WG5uZUtNK20wYkJBYWlFQWtLMDA5d2w4VHg3aWp4YnM5WUp4K1VmOTh2b29tU3pzMmJXZjJaRURDZE1OdEorRWtuaVVwVFRQaHl4RFYyWCtBL2lIcWhScXAzWFF1RVU5ZGdWUlFLRkE1b2RIRDVwUk80QVV0ZmJaaXhhZ0hpMW40OHh1MXRZcUlCeGJwSHh1VzF0bG1zMTNKZ3l3elI5S1I5Zzl0ZnNGU09Wa29NeUFuc3NJSkdFUEx6U0Q1aWtJQXQraFJ2SmFtYm5oMzAyMW9JMStlRkZvbFN1eUY3THIxcUVLYXhXSlBoaVBVbUpCMG5pazcvVEYyTWg3MU1YaGhoaTFnVzNwTHY0WU5OVC9zV09tbFZtSktncENRclIrcmhKcDUxL0Zzd3NtT2hwOWhJM0RiUjg1VWVzencyVVJjSEh2dUZFeGVHNzhoV2RiQmgzbkUyM1JIeWRxci9za1psN1FtZm1SUVRadmtLckZrSVFEYisvTE90V0xuTVhvbXdBbW5mbkkyV0hZYm0vU2l6bVpHc0U3VmRUMWJybkxjaWduaFRkWis4TnRrRjVPbHJLWlBQVFY2TkI3OFRHTTI1Q1AzRHgxNWg5Nk5KTUd1bkdnYldXZlV2allmeU5SdjRLWG13RVRiS2dKR0VORncrZVo1R3Vockg5UDlXdzNTTUlWT1RkNytvUWNvRkYxV01ta21tSEpRaWtXdzcrbkNaSnVseHBtc002cEI0dTBjY2hkRllDTVJDTDhpeVRScGFvQk9jOGVYT3l0NzVmamd6eCtXL3pRT3I4TW1yYlB6R0VtLzN2TG43LzhUQU9jMitWcUtBZlR3WWgzVCt2S0pFbnZUcTdZdGZ0V0lHSzhMTVFFcnNYeTQybzZyWURPaW10M1dTeGxPOEtSakdxOHhaQWk1bGlDaHh4aUJFelg4eEVWUTFwQTBLQ2p4Z2syUElidEhFQjExbUQybVpwUWxXYmhFVTA2OVlRVTJpbGtjU3AzbjBPK2NUZytyZVZZL2RiUDJKNHhja2lDek9pTFpHN0o4SURkckpwRVpIS3NFRythSS9GRHpyOFc3S0tlSVhTdWhCV0c4a3AreEE5Q2ErekdiU0JOQ215VWpPYzlObTV1am9ZRXZ3OHVEaWxsMndVb3BDa1RjdDB4Z2RmYTJpdFVGKzBMNVlPWFpCU3FScmx6SHRLbW1rUjcwRHhUSFpuZnpxQks1TCtrSEJlUHNjWkR5NmIvWkRnc3FnS1I3WW5mTzBBUHVHdkZUQlQ5ZlRKcWxvb1ozc2hiYmRnZXpMTk9vK2JTM0FVdy9aQWJVVG1nN3EwNkJ0NHhuTXN4RUhlT1NORmhFaHZIR0MwTS96RGJ3M29QMjUzUzhnUWJ1WmpYdzgwVXlmMUp0K29kV2l1SjZKK3FhV2FuclhUeWtQUzN2Ly9TOEJTcHJ4MURLeW00alBOeDlNUkVaZllSRXo0ekkyODEwMmtYYlN4V2YwVmlaV2JYZGFDVVQ4aUdENDVMN1QrWVZSZEFaL2pDWmZhVmdIVW02MWdGZEI3M09Ma25IelJzTGlNZkJHREEyazRSM3FuT0Y0OVZ4WDBQT241OFY4dmo4VmRIc29qRlhQd0p2T0lGdlNCcVNocXZwaXR4cGhkZXBFc0RCQUFkQURRT2l5ZzFXR0JnK2F0MVFabkR4a1JENmJYTmFSSlJKSUc4LzdNNkdOT1hURlAvcDZnTm5OdU5FZVB0TUt2SXFaV3V6WEdsdWlYK2FMWjRoYlEzVDR0enY5ZW0yeW5OQ1dhRGpmb0FtTnZlbVRsY3FKUEIvQVNBNjBKZXBzSTFYVkhrYTJ5UnVFbG5PUERMb2JvUTRFbFYwMTROd0tDL1g3UnBjVG5wcFlERXZxZWFFdjhTTXIwNEtVKzR2ZXZHc05aNTBmWDB4cGxkNGFkcmxGa2ltKzV1M1owbjNodFlhdjFBeFpEdmMwYUVDd3lZTWpNWUMwc0o5SlB0TFp1em1xTDBsaW9aK3BvaThTUUN0Q240VHBNMVNYSGRaT0ZsUi81UXpvd3lWeDRyQ0pTdUt0TG52cFhDM1oxbjQrZmpERXFjNWdJY2poSUlJWVNrQ1V6SVN4a3E1c1YzZkZ1WVFIL0ExM3o4VzhuNlF3SnNiYXJqbDRXbE11bUpvZVk1Y0h0NTM3OW1aeE9IeUhRL1RRY1FUajFuRWNXN2VXNnRaaHVDRlV2Z1poNXVTRzR1MUhYZXZNeEFSck83L1R3ZkNOeE5WOWdQNGhUaWQ4dTFmY29LYnI1ZldhZ1dDUDZGSjd5TTNzRXJ5V0lRb0tOVGxNcDdhcko3SVVsMkxtTysrZHB3eFUvaXhYZHVDVVJBMmV3bWFtakwrZ3Z5OStncnN1SkFyN3Z0SUVZZFJ1aWlTMitTWVlLIiwiY29tcGFueUNvZGUiOiI0UGFkMW5qbHZRYndOalNEbUk5ZXd3PT0iLCJqdGkiOiIwNTA4MjcyZS1kNDVjLTRmOTEtYWNiYS05NDE1MzM5YTU0YWUiLCJleHAiOjE4MTIwMjQ2OTAsImlzcyI6ImFwaS5hbmR0ZWtub2xvamkubmV0IiwiYXVkIjoiQXBpYW5kdGVrbm9sb2ppIn0.BmOdBMCd6D4pe_dNUdIjXTTGksCbwj7jmZZN0sK1nS9VLB-BYcD5naiO0J1LvZ3flK81YVBcu8pb_2iGTcoOZw"
+
+        config.headers[
+            REQUEST_HEADER_AUTH_KEY
+        ] = `${TOKEN_TYPE}${token}`
 
         return config
     },
@@ -45,20 +49,10 @@ BaseService.interceptors.response.use(
     (error) => {
         const { response } = error
 
-        toast.push(
-            <Alert showIcon closable type="danger" rounded={false}>
-                API Erişim Hatası<br />
-                {error.request._url}
-            </Alert>,
-            {
-                offsetX: 0,
-                offsetY: 0,
-                transitionType: 'fade',
-                block: true,
-            })
-        if (response && unauthorizedCode.includes(response.status)) {
-            store.dispatch(onSignOutSuccess())
-        }
+
+        // if (response && unauthorizedCode.includes(response.status)) {
+        //     // store.dispatch(onSignOutSuccess())
+        // }
 
         return Promise.reject(error)
     }
